@@ -13,49 +13,21 @@ if(isset($_POST['btn'])){
     $_SESSION['errMsg'] = '';
 
     // 1) validate user email
-    if (!emailValid($email)) {
-        // redirect user back to the form
-        $_SESSION['errMsg'] = 'Введите корректный логин';
-        header('Location: ./view/register-form.php');
-        exit;
-    }
+    emailValid($email, 'Введите корректный логин', 'Location: ./view/register-form.php');
+
     // 2) check user email 
-    $pass = filter_var($pass, FILTER_DEFAULT);
-    if (empty($pass) || mb_strlen($pass) < 7) {
-        // redirect user back to the form
-        $_SESSION['errMsg'] = 'Пароль должен содержать не менее 7 знаков';
-        header('Location: ./view/register-form.php');
-        exit;
-    }
+    passValid($pass, 'Пароль должен содержать не менее 7 знаков', 'Location: ./view/register-form.php');
 
     // get json from dir, transform to array whith JSON_OBJECT_AS_ARRAY!!!!!!!!!
     $users = json_decode(file_get_contents(__DIR__. $config['pathPasswords']), JSON_OBJECT_AS_ARRAY);
     
     // 3) Generte password hash
     $passHash = password_hash($pass, PASSWORD_DEFAULT, $config['costPass']);
-    // $passRepeatHash = password_hash($passRepeat, PASSWORD_DEFAULT, ['cost => 10']);
-    if (false === $passHash) {
-        $_SESSION['errMsg'] = 'Системная ошибка, введит пароль еще раз';
-        header('Location: ./view/register-form.php');
-        exit;
-    }
-    if (!password_verify($passRepeat, $passHash)) {
-        $_SESSION['errMsg'] = 'Пароли не совпадают';
-        header('Location: ./view/register-form.php');
-        exit;
-    }
-    if (!array_key_exists($email, $users) && password_verify($passRepeat, $passHash)) {
-        //// add user to database
-        $users[$email] = $passHash;
-        file_put_contents(
-             __DIR__. $config['pathPasswords'], json_encode($users)
-        );
-        header("Location: ./view/login-form.php");
-    } else {
-        //user is already registred, redirect to auth
-        $_SESSION['errMsg'] = 'Вы уже зарегистрированы, пожалуйста, авторизируйтесь';
-        header('Location: ./index.php');
-    }
+    checkHash($passHash, $config['costPass'], 'Системная ошибка, введит пароль еще раз', 'Location: ./view/register-form.php');
+
+    // 4) Find user account info
+    passEqual($passRepeat, $passHash, 'Пароли не совпадают', 'Location: ./view/register-form.php');
+    registration($email, $users, $passRepeat, $passHash, 'Вы уже зарегистрированы, пожалуйста, авторизируйтесь', 'Location: ./index.php', "Location: ./view/login-form.php",  __DIR__. $config['pathPasswords']);
 }
 
 require_once './view/register-form.php';
