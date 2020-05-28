@@ -28,4 +28,4 @@ if(isset($_POST['btn'])){
     authorisation($email, $users, $pass, $users[$email], $config['newCostPass'], $config['errMsg'][3], $config['redirPath']["logForm"], $config['errMsg'][4], $config['redirPath']["succAuth"], $config['redirPath']["regForm"], $config['pathPasswords']);
 }
 
-require_once $config['redirPath']["logForm"];
+require_once './view/login-form.php';

@@ -30,4 +30,4 @@ if(isset($_POST['btn'])){
     registration($email, $users, $passRepeat, $passHash, $config['errMsg'][6], $config['redirPath']["index"], $config['redirPath']["logForm"],  __DIR__. $config['pathPasswords']);
 }
 
-require_once $config['redirPath']["regForm"];
+require_once './view/register-form.php';
