@@ -13,19 +13,19 @@ if(isset($_POST['btn'])){
     $_SESSION['errMsg'] = '';
 
     // 1) validate user email
-    emailValid($email, 'Введите корректный логин', 'Location: ./view/login-form.php');
+    emailValid($email, $config['errMsg'][0], $config['redirPath']["logForm"]);
     // 2) check user email 
-    passValid($pass, 'Пароль должен содержать не менее 7 знаков', 'Location: ./view/login-form.php');
+    passValid($pass, $config['errMsg'][1], $config['redirPath']["logForm"]);
 
     // get json from dir, transform to array whith JSON_OBJECT_AS_ARRAY!!!!!!!!!
     $users = json_decode(file_get_contents(__DIR__. $config['pathPasswords']), JSON_OBJECT_AS_ARRAY);
     
     // 3) Generte password hash
     $passHash = password_hash($pass, PASSWORD_DEFAULT, $config['costPass']);
-    checkHash($passHash, $config['costPass'], 'Системная ошибка, введит пароль еще раз', 'Location: ./view/login-form.php');
+    checkHash($passHash, $config['costPass'], $config['errMsg'][2], $config['redirPath']["logForm"]);
                                                                                                 
     // 4) Find user account info
-    authorisation($email, $users, $pass, $users[$email], $config['newCostPass'], 'Неправильный пароль, введите еще раз', 'Location: ./view/login-form.php', "Извините, но пользователь с этим логином не зарегистрирован! Зарегистрируйтесь!", 'Location: ./view/successAuth.php','Location: ./view/register-form.php', $config['pathPasswords']);
+    authorisation($email, $users, $pass, $users[$email], $config['newCostPass'], $config['errMsg'][3], $config['redirPath']["logForm"], $config['errMsg'][4], $config['redirPath']["succAuth"], $config['redirPath']["regForm"], $config['pathPasswords']);
 }
 
-require_once './view/login-form.php';
+require_once $config['redirPath']["logForm"];

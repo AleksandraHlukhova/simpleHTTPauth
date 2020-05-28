@@ -41,14 +41,21 @@ function checkPassMatchEmail($pass, $hash, $errMsg1, $redirPath1){
         exit;
     }
 }
+
+function pushToDataBase($dbPath, $users){
+    file_put_contents(
+        $dbPath, json_encode($users)
+    );
+}
 function passRehash($email, $newCostPass, $pass, $users, $dbPath){
     if (password_needs_rehash($hash, PASSWORD_DEFAULT, $newCostPass)) {
         // if yes, create new hash
         $newHash = password_hash($pass, PASSWORD_DEFAULT, $newCostPass);
         $users[$email] = $newHash;
-        file_put_contents(
-            $dbPath, json_encode($users)
-        );
+        // file_put_contents(
+        //     $dbPath, json_encode($users)
+        // );
+        pushToDataBase($dbPath, $users);
     }
 }
 function authorisation($email, $users, $pass, $hash, $newCostPass, $errMsg1, $redirPath1, $errMsg2, $redirPath2, $redirPath3, $dbPath){
@@ -75,9 +82,10 @@ function registration($email, $users, $passRepeat, $passHash, $errMsg, $redirPat
     if (!array_key_exists($email, $users) && password_verify($passRepeat, $passHash)) {
         //// add user to database
         $users[$email] = $passHash;
-        file_put_contents(
-            $dbPath, json_encode($users)
-        );
+        // file_put_contents(
+        //     $dbPath, json_encode($users)
+        // );
+        pushToDataBase($dbPath, $users);
         header($redirPath2);
     } else {
         //user is already registred, redirect to auth
