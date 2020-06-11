@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,14 +5,14 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="./style/style.css">
 </head>
 
 <body>
     <div class="container">
         <h4>Register</h4>
         <h6>To register a new accout put your credentials below, please.</h6>
-        <form action="../register.php" method="post" enctype="application/x-www-form-urlencoded" class="form">
+        <form action="./register.php" method="post" enctype="application/x-www-form-urlencoded" class="form">
             <!-- Email -->
             <label for="email">Email</label>
             <input type="email" name="email" class="input-data" id="email"

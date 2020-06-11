@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +5,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="./style/style.css">
 
 </head>
 
@@ -17,7 +13,7 @@ session_start();
     <div class="container">
         <h4>Login</h4>
         <h6>Put your credentials to login</h6>
-        <form action="../login.php" method="post" enctype="application/x-www-form-urlencoded" class="form">
+        <form action="./login.php" method="post" enctype="application/x-www-form-urlencoded" class="form">
             <!-- Email -->
             <label for="email">Email</label>
             <input type="email" name="email" class="input-data" id="email"

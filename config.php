@@ -18,9 +18,9 @@ $config = array(
         6 => 'Вы уже зарегистрированы, пожалуйста, авторизируйтесь'
     ],
     "redirPath" => [
-        "logForm" => 'Location: ./view/login-form.php',
+        "logForm" => 'Location: ./login.php',
         "succAuth" => 'Location: ./view/successAuth.php',
-        "regForm" => 'Location: ./view/register-form.php',
+        "regForm" => 'Location: ./register.php',
         "index" => 'Location: ./index.php',
     ]
 );
